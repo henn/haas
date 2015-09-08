@@ -263,6 +263,8 @@ def node_delete_nic(node, nic):
 }))
 def node_connect_network(node, nic, network, channel=None):
     """Connect a physical NIC to a network, on channel.
+    Returns a status id that can be used for monitoring this asynchronous
+    operation.
 
     If channel is ``None``, use the allocator default.
 
@@ -317,15 +319,19 @@ def node_connect_network(node, nic, network, channel=None):
         raise BadArgumentError("Channel %r, is not legal for this network." %
                                channel)
 
-    db.add(model.NetworkingAction(nic=nic,
-                                  new_network=network,
-                                  channel=channel))
+    action = model.NetworkingAction(nic=nic, new_network=network,
+                                    channel=channel)
+    status_id = action.id
+    db.add(action)
     db.commit()
-    return '', 202
+
+    return status_id
 
 @rest_call('POST', '/node/<node>/nic/<nic>/detach_network')
 def node_detach_network(node, nic, network):
     """Detach network ``network`` from physical nic ``nic``.
+    Returns a status id that can be used for monitoring this asynchronous
+    operation.
 
     Raises ProjectMismatchError if the node is not in a project.
 
@@ -347,11 +353,14 @@ def node_detach_network(node, nic, network):
         .filter_by(nic=nic, network=network).first()
     if attachment is None:
         raise BadArgumentError("The network is not attached to the nic.")
-    db.add(model.NetworkingAction(nic=nic,
-                                  channel=attachment.channel,
-                                  new_network=None))
+
+    action = model.NetworkingAction(nic=nic, new_network=None,
+                                    channel=channel)
+    status_id = action.id
+    db.add(action)
     db.commit()
-    return '', 202
+
+    return status_id
 
 
                             # Head Node Code #
@@ -759,6 +768,24 @@ def port_detach_nic(switch, port):
     port.nic = None
     db.commit()
 
+
+                            # Query functions #
+                            ###################
+
+@rest_call('GET', '/status/<status>')
+def show_status(status):
+    """Report status on a HaaS operation.
+
+    Accepts a previously-issued status UUID.
+    """
+
+    db = model.Session()
+    status = _must_find(db,model.NetworkingAction,status_id)
+
+    # TODO: add accessability check based on whether the user can access the parent
+    # node
+
+    return json.dumps(status, sort_keys=True)
 
 @rest_call('GET', '/free_nodes')
 def list_free_nodes():

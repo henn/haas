@@ -17,6 +17,7 @@ from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import relationship, sessionmaker,backref
 from passlib.hash import sha512_crypt
+from datetime import datetime
 from subprocess import call, check_call, Popen, PIPE
 import subprocess
 from haas.network_allocator import get_network_allocator
@@ -107,6 +108,11 @@ class Nic(Model):
     # The switch port to which the nic is attached:
     port_id   = Column(ForeignKey('port.id'))
     port      = relationship("Port",backref=backref('nic',uselist=False))
+
+    # Any pending actions
+    current_action = relationship("NetworkingAction",
+                    primaryjoin="and_(Nic.id==NetworkingAction.nic_id, "
+                    "NetworkingAction=='pending'", uselist=False)
 
     def __init__(self, node, label, mac_addr):
         self.owner     = node
@@ -426,7 +432,7 @@ class Headnode(Model):
         self.project = project
         self.label = label
         self.dirty = True
-        self.uuid = str(uuid.uuid1())
+        self.uuid = str(uuid.uuid4())
         self.base_img = base_img
 
 
@@ -548,14 +554,24 @@ class NetworkingAction(AnonModel):
 
     # This model is not visible in the API, so inherit from AnonModel
 
+    id             = Column(String, nullable=False, primary_key=True,
+                            unique=True, default=str(uuid.uuid4()))
     nic_id         = Column(ForeignKey('nic.id'), nullable=False)
     new_network_id = Column(ForeignKey('network.id'), nullable=True)
     channel        = Column(String, nullable=False)
 
-    nic = relationship("Nic", backref=backref('current_action', uselist=False))
+    created        = Column(DateTime, nullable=False, default=datetime.now)
+    status         = Column(Enum("pending","error","success",
+                                 name="status_enum"), default="pending",
+                                 nullable=False)
+    error          = Column(Text, nullable=True)
+
+
+    nic = relationship("Nic")
     new_network = relationship("Network",
                                backref=backref('scheduled_nics',
                                                uselist=True))
+
 
 
 class NetworkAttachment(AnonModel):

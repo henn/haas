@@ -359,6 +359,12 @@ def show_node(node):
     do_get(url)
 
 @cmd
+def show_status(status):
+    """Display information about an async <status>"""
+    url = object_url('status', status)
+    do_get(url)
+
+@cmd
 def list_project_headnodes(project):
     """List all headnodes attached to a <project>"""
     url = object_url('project', project, 'headnodes')
