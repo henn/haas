@@ -15,6 +15,7 @@
 """This module implements the HaaS command line tool."""
 from haas import config, server
 from haas.config import cfg
+from haas.client import Haas
 
 import inspect
 import json
@@ -30,6 +31,9 @@ command_dict = {}
 usage_dict = {}
 MIN_PORT_NUMBER = 1
 MAX_PORT_NUMBER = 2**16 - 1
+
+# Handle to the client library
+h = Haas()
 
 def cmd(f):
     """A decorator for CLI commands.
@@ -282,9 +286,10 @@ def headnode_delete_hnic(headnode, nic):
 @cmd
 def node_connect_network(node, nic, network, channel):
     """Connect <node> to <network> on given <nic> and <channel>"""
-    url = object_url('node', node, 'nic', nic, 'connect_network')
-    do_post(url, data={'network': network,
-                       'channel': channel})
+    ret = h.node_connect_network(node, nic, network, channel)
+    print(ret)
+    # TODO: do something nice for exceptions. Maybe a wrapper like is used by
+    # do_post()
 
 @cmd
 def node_detach_network(node, nic, network):

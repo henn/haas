@@ -22,7 +22,7 @@ import requests
 
 class Haas:
     """Client class for making Haas API calls.
-    Note that this client library is not yet complete, and will filled out as
+    Note that this client library is not yet complete and will be added to as
     needed.
 
     Example:
@@ -73,7 +73,7 @@ class Haas:
         r = requests.post(url, data=json.dumps(data))
 
         if not (r.status_code >= 200 and r.status_code < 300):
-            """We weren't successful. Throw an exception"""
+            # We weren't successful. Throw an exception
             if r.status_code >= 400 and r.status_code < 500:
                 raise APIError(r.text)
             elif r.status_code >= 500 and r.status_code < 600:
