@@ -235,7 +235,9 @@ class TestValidationError(HttpTest):
         def api_call(foo, bar):
             pass
 
-        @rest.rest_call('PUT', '/mixed/args/<arg1>')
+        @rest.rest_call('PUT', '/mixed/args/<arg1>', schema=Schema({
+            "arg2": basestring,
+        }))
         def mixed_args(arg1, arg2):
             return json.dumps([arg1, arg2])
 
@@ -287,6 +289,10 @@ class TestValidationError(HttpTest):
         assert _is_error(self.client.put('/custom-schema', data=json.dumps({
             'the_value': 'Not an integer!',
         })), rest.ValidationError)
+        resp = self.client.put('/custom-schema',
+                               data=json.dumps({'the_value': 2}))
+        assert resp.status_code == 200
+        assert json.loads(resp.get_data()) == 2
 
 
 class TestCallOnce(HttpTest):

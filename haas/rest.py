@@ -179,11 +179,7 @@ def _do_validation(schema, kwargs):
     validation_error = ValidationError(
         "The request body %r is not valid for "
         "this request." % body)
-    for k in body.keys():
-        if k in kwargs:
-            raise validation_error  # Duplicate key in body + url
-        kwargs[k] = body[k]
-    if not _validates(kwargs):
+    if not _validates(body):
         # It would be nice to return a more helpful error message
         # here, but it's a little awkward to extract one from the
         # schema library. You can easily get something like:
@@ -193,6 +189,10 @@ def _do_validation(schema, kwargs):
         # which, while fairly clear and helpful, is obviously
         # talking about python types, which is gross.
         raise validation_error
+    for k in body.keys():
+        if k in kwargs:
+            raise validation_error  # Duplicate key in body + url
+        kwargs[k] = body[k]
     return kwargs
 
 
