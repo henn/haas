@@ -177,8 +177,8 @@ def _do_validation(schema, kwargs):
     body = flask.request.get_json(force=True)
 
     validation_error = ValidationError(
-        "The request body %r is not valid for "
-        "this request." % body)
+        "The request body is not valid for this request.")
+
     if not _validates(body):
         # It would be nice to return a more helpful error message
         # here, but it's a little awkward to extract one from the
