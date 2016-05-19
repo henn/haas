@@ -27,12 +27,21 @@ If you're looking to code, there are a few ways to help:
 * IRL (In Real Life): The MOC group office is on the BU campus, at 3 Cummington Mall, Boston, MA room 451. Anyone interested in HaaS is welcome to drop in and work there.
 * Email: HaaS developers or anyone else wishing to stay up to date should subscribe to haas-dev-list@bu.edu by sending a plain text email to majordomo@bu.edu with "subscribe haas-dev-list" in the body.
 
-# Coding style
+# Coding styles/conventions
 
 By default, HaaS (like many other python projects) uses
 [PEP8](https://www.python.org/dev/peps/pep-0008/) as its naming guide, and
 [PEP257](https://www.python.org/dev/peps/pep-0257/) for documentation.
 Departures are acceptable when called for, but should be discussed first.
+
+## REST API calls
+
+Arguments passed to externally-visible API calls are verified by a combination
+of the Flask API and
+
+### Body-args (Schema)
+
+
 
 ## Often-used code
 In certain cases, one will encounter heavily repeated code that gets run once per API call such as this:

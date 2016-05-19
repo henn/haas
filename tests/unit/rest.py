@@ -226,7 +226,12 @@ class TestNoneReturnValue(HttpTest):
 
 
 class TestValidationError(HttpTest):
-    """basic tests for input validation."""
+    """basic tests for input validation.
+    We have three cases we want to validate here:
+        1. No arguments in the URL or body (api_call)
+        2. Argument in the URL and not in the body (url_args)
+        3. Arguments in both the URL and body (mixed_args)
+    """
 
     def setUp(self):
         HttpTest.setUp(self)
@@ -235,17 +240,16 @@ class TestValidationError(HttpTest):
         def api_call(foo, bar):
             pass
 
+        @rest.rest_call('PUT', '/just_url/args/<int:int_arg>/<str_arg>')
+        def url_args(int_arg, str_arg):
+            return json.dumps([int_arg, str_arg])
+
         @rest.rest_call('PUT', '/mixed/args/<arg1>', schema=Schema({
             "arg2": basestring,
         }))
         def mixed_args(arg1, arg2):
             return json.dumps([arg1, arg2])
 
-        @rest.rest_call('PUT', '/custom-schema', schema=Schema({
-            "the_value": int,
-        }))
-        def custom_schema(the_value):
-            return repr(the_value)
 
     def _do_request(self, data):
         """Make a request to the endpoint with `data` in the body.
