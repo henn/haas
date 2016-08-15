@@ -75,9 +75,19 @@ class AuthBackend(object):
         ``project`` will be a ``Project`` object, *not* the name of the
         project.
 
-        Note that have_admin implies have_project_acccess.
+        Note: that have_admin implies have_project_acccess.
+
+        Note 2: If ``project`` is ``None``, then we return the result of
+        ``have_admin()``. This is to prevent undefined behavior for public
+        networks, where ``None`` in the creator or access fields are valid.
         """
-        return self._have_admin() or self._have_project_access(project)
+
+        if self._have_admin():
+            return True
+        elif project is None:
+            return False
+        else:
+            return self._have_project_access(project)
 
     def require_admin(self):
         """Ensure the request is authorized to act as an administrator.

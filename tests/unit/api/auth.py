@@ -400,7 +400,7 @@ def test_auth_call(kwargs):
 
 
 # There are a whole bunch of api calls that just unconditionally require admin
-# access. This is  a list of (function, args) pairs, each of which should
+# access. This is a list of (function, args) pairs, each of which should
 # succed as admin and fail as a regular project. The actual test functions for
 # these are below.
 
