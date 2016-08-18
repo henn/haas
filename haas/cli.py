@@ -233,7 +233,10 @@ def do_request(method, url, data={}):
         `url` - The url to make the request to
         `data` - the body of the request.
     """
-    return check_status_code(http_client.request(method, url, data=data))
+    if method == "GET":
+        return check_status_code(http_client.request(method, url, params=data))
+    else:
+        return check_status_code(http_client.request(method, url, data=data))
 
 def do_put(url, data={}):
     return do_request('PUT', url, data=json.dumps(data))
@@ -241,8 +244,8 @@ def do_put(url, data={}):
 def do_post(url, data={}):
     return do_request('POST', url, data=json.dumps(data))
 
-def do_get(url):
-    return do_request('GET', url)
+def do_get(url, data={}):
+    return do_request('GET', url, data=data)
 
 def do_delete(url):
     return do_request('DELETE', url)
