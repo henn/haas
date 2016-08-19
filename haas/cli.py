@@ -116,7 +116,6 @@ class KeystoneHTTPClient(HTTPClient):
 # An instance of HTTPClient, which will be used to make the request.
 http_client = None
 
-
 def cmd(f):
     """A decorator for CLI commands.
 
@@ -233,19 +232,19 @@ def do_request(method, url, data={}):
         `url` - The url to make the request to
         `data` - the body of the request.
     """
-    return check_status_code(http_client.request(method, url, data=data))
+    check_status_code(http_client.request(method, url, data=data))
 
 def do_put(url, data={}):
-    return do_request('PUT', url, data=json.dumps(data))
+    do_request('PUT', url, data=json.dumps(data))
 
 def do_post(url, data={}):
-    return do_request('POST', url, data=json.dumps(data))
+    do_request('POST', url, data=json.dumps(data))
 
 def do_get(url):
-    return do_request('GET', url)
+    do_request('GET', url)
 
 def do_delete(url):
-    return do_request('DELETE', url)
+    do_request('DELETE', url)
 
 @cmd
 def serve(port):
