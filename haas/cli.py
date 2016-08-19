@@ -32,6 +32,11 @@ usage_dict = {}
 MIN_PORT_NUMBER = 1
 MAX_PORT_NUMBER = 2**16 - 1
 
+# Set this to true to indicate an error to the CLI caller.
+# This assumes the CLI process is only called once for a particular command and
+# thus __error is not reused.
+__error = False
+
 class HTTPClient(object):
     """An HTTP client.
 
@@ -130,6 +135,8 @@ def cmd(f):
             f(*args, **kwargs)
         except TypeError:
             # TODO TypeError is probably too broad here.
+            global __error
+            __error = True
             sys.stderr.write('Invalid arguements.  Usage:\n')
             help(f.__name__)
     command_dict[f.__name__] = wrapped
@@ -202,10 +209,16 @@ def setup_http_client():
 
 
 def check_status_code(response):
+    """ Checks the http status code of the response and prints output.
+    Sets the global __error to True and gives error code to user if an
+    error was detected.
+    """
     if response.status_code < 200 or response.status_code >= 300:
         sys.stderr.write('Unexpected status code: %d\n' % response.status_code)
         sys.stderr.write('Response text:\n')
         sys.stderr.write(response.text + "\n")
+        global __error
+        __error = True
     else:
         sys.stdout.write(response.text + "\n")
 
@@ -703,10 +716,13 @@ def main():
     """
     config.setup()
 
+    global __error
     if len(sys.argv) < 2 or sys.argv[1] not in command_dict:
         # Display usage for all commands
         help()
-        sys.exit(1)
+        __error = True
     else:
         setup_http_client()
         command_dict[sys.argv[1]](*sys.argv[2:])
+
+    return 1 if __error else 0
