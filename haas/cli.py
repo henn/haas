@@ -243,14 +243,18 @@ def object_url(*args):
 def do_put(url, data=None):
     check_status_code(http_client.request('PUT', url, data=data))
 
+
 def do_post(url, data=None):
     check_status_code(http_client.request('POST', url, data=data))
+
 
 def do_get(url, params=None):
     check_status_code(http_client.request('GET', url, params=params))
 
+
 def do_delete(url, data=None):
     check_status_code(http_client.request('DELETE', url, data=data))
+
 
 @cmd
 def serve(port):
