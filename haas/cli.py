@@ -231,35 +231,26 @@ def object_url(*args):
     return url
 
 
-def do_request(method, url, data={}):
-    """Helper function for making HTTP requests against the API.
+# Helper functions for making HTTP requests against the API.
+#    Uses the global variable `http_client` to make the request.
+#
+#    Arguments:
+#
+#        `url` - The url to make the request to
+#        `data` - the body of the request (for PUT, POST and DELETE)
+#        `params` - query parameters (for GET)
 
-    Uses the global variable `http_client` to make the request.
+def do_put(url, data=None):
+    check_status_code(http_client.request('PUT', url, data=data))
 
-    Arguments:
+def do_post(url, data=None):
+    check_status_code(http_client.request('POST', url, data=data))
 
-        `method` - the http method, as a string: 'GET', 'PUT', 'POST'...
-        `url` - The url to make the request to
-        `data` - the body of the request.
-    """
-    return check_status_code(http_client.request(method, url, data=data))
+def do_get(url, params=None):
+    check_status_code(http_client.request('GET', url, params=params))
 
-
-def do_put(url, data={}):
-    return do_request('PUT', url, data=json.dumps(data))
-
-
-def do_post(url, data={}):
-    return do_request('POST', url, data=json.dumps(data))
-
-
-def do_get(url):
-    return do_request('GET', url)
-
-
-def do_delete(url):
-    return do_request('DELETE', url)
-
+def do_delete(url, data=None):
+    check_status_code(http_client.request('DELETE', url, data=data))
 
 @cmd
 def serve(port):
