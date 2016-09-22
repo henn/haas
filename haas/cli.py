@@ -240,20 +240,20 @@ def object_url(*args):
 #        `data` - the body of the request (for PUT, POST and DELETE)
 #        `params` - query parameters (for GET)
 
-def do_put(url, data=None):
-    check_status_code(http_client.request('PUT', url, data=data))
+def do_put(url, data={}):
+    check_status_code(http_client.request('PUT', url, data=json.dumps(data)))
 
 
-def do_post(url, data=None):
-    check_status_code(http_client.request('POST', url, data=data))
+def do_post(url, data={}):
+    check_status_code(http_client.request('POST', url, data=json.dumps(data)))
 
 
 def do_get(url, params=None):
     check_status_code(http_client.request('GET', url, params=params))
 
 
-def do_delete(url, data=None):
-    check_status_code(http_client.request('DELETE', url, data=data))
+def do_delete(url):
+    check_status_code(http_client.request('DELETE', url))
 
 
 @cmd
