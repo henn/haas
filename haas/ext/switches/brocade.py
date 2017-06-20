@@ -24,8 +24,8 @@ import re
 import requests
 import schema
 
-from haas.migrations import paths
-from haas.model import db, Switch
+from hil.migrations import paths
+from hil.model import db, Switch
 
 paths[__name__] = join(dirname(__file__), 'migrations', 'brocade')
 
@@ -76,7 +76,7 @@ class Brocade(Switch):
                 self._set_native_vlan(interface, network_id)
         else:
             match = re.match(re.compile(r'vlan/(\d+)'), channel)
-            assert match is not None, "HaaS passed an invalid channel to the" \
+            assert match is not None, "HIL passed an invalid channel to the" \
                 " switch!"
             vlan_id = match.groups()[0]
 

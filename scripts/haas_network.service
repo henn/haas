@@ -1,13 +1,13 @@
 [Unit]
-Description=HaaS Network Server 
+Description=HIL Network Server 
 After=network.target
 After=postgresql
 
 [Service]
-User=haas_user
-Group=haas_user
-WorkingDirectory=/var/lib/haas/
-ExecStart=/usr/bin/haas serve_networks
+User=hil_user
+Group=hil_user
+WorkingDirectory=/var/lib/hil/
+ExecStart=/usr/bin/hil serve_networks
 Type=simple
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure

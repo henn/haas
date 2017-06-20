@@ -1,5 +1,5 @@
 import json
-from haas.client.base import ClientBase
+from hil.client.base import ClientBase
 
 
 class Network(ClientBase):

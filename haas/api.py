@@ -12,7 +12,7 @@
 # express or implied.  See the License for the specific language
 # governing permissions and limitations under the License.
 
-"""This module provides the HaaS service's public API.
+"""This module provides the HIL service's public API.
 
 TODO: Spec out and document what sanitization is required.
 """
@@ -20,14 +20,14 @@ import json
 
 from schema import Schema, Optional
 
-from haas import model
-from haas.model import db
-from haas.auth import get_auth_backend
-from haas.config import cfg
-from haas.rest import rest_call
-from haas.class_resolver import concrete_class_for
-from haas.network_allocator import get_network_allocator
-from haas.errors import *
+from hil import model
+from hil.model import db
+from hil.auth import get_auth_backend
+from hil.config import cfg
+from hil.rest import rest_call
+from hil.class_resolver import concrete_class_for
+from hil.network_allocator import get_network_allocator
+from hil.errors import *
 
 
 # Project Code #
@@ -495,7 +495,7 @@ def headnode_create(headnode, project, base_img):
 
     If the project does not exist, a NotFoundError will be raised.
 
-    If the base image does not exist (is not specified in haas.cfg) a
+    If the base image does not exist (is not specified in hil.cfg) a
     BadArgumentError will be raised.
     """
 
@@ -761,7 +761,7 @@ def network_create(network, owner, access, net_id):
 
     Pass 'admin' as owner for an administrator-owned network.  Pass '' as
     access for a publicly accessible network.  Pass '' as net_id if you wish
-    to use the HaaS's network-id allocation pool.
+    to use the HIL's network-id allocation pool.
 
     Details of the various combinations of network attributes are in
     docs/networks.md

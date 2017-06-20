@@ -21,10 +21,10 @@ import pexpect
 import logging
 import schema
 
-from haas.model import db, Switch
-from haas.migrations import paths
-from haas.ext.switches import _console
-from haas.ext.switches._dell_base import _BaseSession
+from hil.model import db, Switch
+from hil.migrations import paths
+from hil.ext.switches import _console
+from hil.ext.switches._dell_base import _BaseSession
 from os.path import dirname, join
 
 paths[__name__] = join(dirname(__file__), 'migrations', 'dell')

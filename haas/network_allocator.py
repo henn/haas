@@ -3,7 +3,7 @@
 This module supplies an interface for an allocator of network identifiers to
 be used by API calls such as ``network_create``.
 
-For HaaS to operate correctly, a network allocator must be registered by
+For HIL to operate correctly, a network allocator must be registered by
 calling ``set_network_allocator`` exactly once -- typically this is done by an
 extension.
 """
@@ -13,10 +13,10 @@ from abc import ABCMeta, abstractmethod
 
 
 class NetworkAllocator(object):
-    """A network allocator allocates network identifiers for use by HaaS.
+    """A network allocator allocates network identifiers for use by HIL.
 
     A network identifier is an implementation-specific string that is treated
-    as opaque by the HaaS core.
+    as opaque by the HIL core.
 
     This class is abstract; extensions should subclass it and provide the
     specified methods, then call ``set_network_allocator`` to register the
@@ -46,9 +46,9 @@ class NetworkAllocator(object):
     def populate(self):
         """Populate the database with any initial state needed by the allocator.
 
-        This is invoked when the haas database is first initialized. It *must*
+        This is invoked when the hil database is first initialized. It *must*
         be safe to call this method multiple times, including on a database
-        that has been modified in ways during the course of normal HaaS
+        that has been modified in ways during the course of normal HIL
         operation.
         """
 
@@ -88,7 +88,7 @@ def set_network_allocator(network_allocator):
 
     This function must be called exactly once, typically from the extension
     providing the network allocator. If it is called more than once, or has
-    not been called by the time all extensions have been loaded, HaaS will
+    not been called by the time all extensions have been loaded, HIL will
     exit with an error.
     """
     global _network_allocator

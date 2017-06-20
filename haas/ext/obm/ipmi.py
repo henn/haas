@@ -17,9 +17,9 @@
 import schema
 import logging
 
-from haas.model import db, Obm
-from haas.errors import OBMError, BadArgumentError
-from haas.dev_support import no_dry_run
+from hil.model import db, Obm
+from hil.errors import OBMError, BadArgumentError
+from hil.dev_support import no_dry_run
 from subprocess import call, Popen, PIPE
 import os
 
@@ -76,7 +76,7 @@ class Ipmi(Obm):
             # power cycle will fail if the machine is not running.
             # To avoid such a situation, just turn it on anyways.
             # Doing this saves power by turning things off without
-            # Without breaking the HaaS.
+            # Without breaking the HIL.
             return
         # If it is still does not work, then it is a real error:
         raise OBMError('Could not power cycle node %s' % self.node.label)
@@ -144,4 +144,4 @@ class Ipmi(Obm):
             return "".join(i for i in log.read() if ord(i) < 128)
 
     def get_console_log_filename(self):
-        return '/var/run/haas_console_logs/%s.log' % self.host
+        return '/var/run/hil_console_logs/%s.log' % self.host

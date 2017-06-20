@@ -2,11 +2,11 @@
 
 Includes API calls for managing users.
 """
-from haas import api, model, auth
-from haas.model import db
-from haas.auth import get_auth_backend
-from haas.rest import rest_call, local, ContextLogger
-from haas.errors import *
+from hil import api, model, auth
+from hil.model import db
+from hil.auth import get_auth_backend
+from hil.rest import rest_call, local, ContextLogger
+from hil.errors import *
 from passlib.hash import sha512_crypt
 from schema import Schema, Optional
 import flask
@@ -16,7 +16,7 @@ logger = ContextLogger(logging.getLogger(__name__), {})
 
 
 class User(db.Model):
-    """A user of the HaaS.
+    """A user of the HIL.
 
     A user can be a member of any number of projects, which grants them access
     to that process's resources. A user may also be flagged as an administrator
@@ -69,7 +69,7 @@ def user_create(user, password, is_admin=False):
     get_auth_backend().require_admin()
 
     # XXX: We need to do a bit of refactoring, so this is available outside of
-    # haas.api:
+    # hil.api:
     api._assert_absent(User, user)
 
     user = User(user, password, is_admin=is_admin)
@@ -86,7 +86,7 @@ def user_delete(user):
     get_auth_backend().require_admin()
 
     # XXX: We need to do a bit of refactoring, so this is available outside of
-    # haas.api:
+    # hil.api:
     user = api._must_find(User, user)
 
     db.session.delete(user)

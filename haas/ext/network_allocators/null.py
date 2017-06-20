@@ -17,7 +17,7 @@ Network IDs are random and arbitrary. The only supported channel is "null".
 """
 
 import uuid
-from haas.network_allocator import NetworkAllocator, set_network_allocator
+from hil.network_allocator import NetworkAllocator, set_network_allocator
 
 
 class NullNetworkAllocator(NetworkAllocator):

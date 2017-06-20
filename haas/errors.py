@@ -11,7 +11,7 @@
 # IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 # express or implied.  See the License for the specific language
 # governing permissions and limitations under the License.
-"""Exceptions thrown by HaaS api calls.
+"""Exceptions thrown by HIL api calls.
 
 This module defines several exceptions corresponding to specific errors.
 They fall into two basic categories, captured by the classes APIError

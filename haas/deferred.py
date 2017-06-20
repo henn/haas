@@ -14,8 +14,8 @@
 
 """Performs deferred networking actions."""
 
-from haas import model
-from haas.model import db
+from hil import model
+from hil.model import db
 import logging
 
 logger = logging.getLogger(__name__)

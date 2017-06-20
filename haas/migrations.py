@@ -1,7 +1,7 @@
 from flask_migrate import Migrate, MigrateCommand
-from haas.flaskapp import app
-from haas.model import db
-from haas.network_allocator import get_network_allocator
+from hil.flaskapp import app
+from hil.model import db
+from hil.network_allocator import get_network_allocator
 from os.path import join, dirname
 import sys
 
@@ -15,7 +15,7 @@ from alembic.script import ScriptDirectory
 # Extensions which use this facility must also use their module name as a
 # a branch_label on their migration scripts.
 paths = {
-    'haas': join(dirname(__file__), 'migrations', 'versions'),
+    'hil': join(dirname(__file__), 'migrations', 'versions'),
 }
 
 migrate = Migrate(app, db,
@@ -58,7 +58,7 @@ def create_db():
     """Create and populate the initial database.
 
     The database connection must have been previously initialzed via
-    `haas.model.init_db`.
+    `hil.model.init_db`.
     """
     with app.app_context():
         db.create_all()
@@ -81,11 +81,11 @@ def check_db_schema():
 
     if 'alembic_version' not in tablenames:
         sys.exit("ERROR: Database schema is not initialized; have you run "
-                 "haas-admin db create?")
+                 "hil-admin db create?")
 
     actual_heads = {row[0] for row in
                     db.session.query(AlembicVersion).all()}
 
     if _expected_heads() != actual_heads:
         sys.exit("ERROR: Database schema version is incorrect; try "
-                 "running haas-admin db upgrade heads.")
+                 "running hil-admin db upgrade heads.")

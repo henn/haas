@@ -12,12 +12,12 @@
 # express or implied.  See the License for the specific language
 # governing permissions and limitations under the License.
 
-from haas.model import *
-from haas.migrations import create_db
-from haas.network_allocator import get_network_allocator
-from haas.config import cfg
-from haas.rest import app, init_auth
-from haas import api, config
+from hil.model import *
+from hil.migrations import create_db
+from hil.network_allocator import get_network_allocator
+from hil.config import cfg
+from hil.rest import app, init_auth
+from hil import api, config
 from abc import ABCMeta, abstractmethod
 import json
 import subprocess
@@ -46,8 +46,8 @@ def config_testsuite():
         config_set({
             'extensions': {
                 # Use the null network allocator and auth plugin by default:
-                'haas.ext.network_allocators.null': '',
-                'haas.ext.auth.null': '',
+                'hil.ext.network_allocators.null': '',
+                'hil.ext.auth.null': '',
             },
             'devel': {
                 'dry_run': True,
@@ -98,7 +98,7 @@ def config_set(config_dict):
 
 
 def config_clear():
-    """Clear the contents of the current HaaS configuration"""
+    """Clear the contents of the current HIL configuration"""
     for section in cfg.sections():
         cfg.remove_section(section)
 
@@ -158,12 +158,12 @@ def with_request_context():
 def fail_on_log_warnings():
     """Raise an exception if a message is logged at warning level or higher.
 
-    Calling this registers a Handler for the `haas` module; it is meant to be
+    Calling this registers a Handler for the `hil` module; it is meant to be
     used as a test fixture.
 
     The exception raised will be of type `LoggedWarningError`.
     """
-    logger = logging.getLogger('haas')
+    logger = logging.getLogger('hil')
     logger.addHandler(_FailOnLogWarnings())
 
 
@@ -393,16 +393,16 @@ def initial_db():
 
     Note that this fixture requires the use of the following extensions:
 
-        - haas.ext.switches.mock
-        - haas.ext.obm.mock
+        - hil.ext.switches.mock
+        - hil.ext.obm.mock
     """
-    for required_extension in 'haas.ext.switches.mock', 'haas.ext.obm.mock':
+    for required_extension in 'hil.ext.switches.mock', 'hil.ext.obm.mock':
         assert required_extension in sys.modules, \
             "The 'initial_db' fixture requires the extension %r" % \
             required_extension
 
-    from haas.ext.switches.mock import MockSwitch
-    from haas.ext.obm.mock import MockObm
+    from hil.ext.switches.mock import MockSwitch
+    from hil.ext.obm.mock import MockObm
 
     with app.app_context():
         # Create a couple projects:

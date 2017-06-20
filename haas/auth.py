@@ -1,7 +1,7 @@
 """Authentication and authorization."""
 
-from haas.errors import AuthorizationError
-from haas import model
+from hil.errors import AuthorizationError
+from hil import model
 from abc import ABCMeta, abstractmethod
 
 import sys
@@ -29,12 +29,12 @@ class AuthBackend(object):
         """Authenticate the api call, and prepare for later authorization checks.
 
         This method will be invoked inside of a flask request context,
-        with ``haas.rest.local.db`` initialized to a valid database session.
+        with ``hil.rest.local.db`` initialized to a valid database session.
         It is responsible for authenticating the request, and storing any
         data it will need later to determine whether the requested operation
         is authorized.
 
-        The attribute ``haas.rest.local.auth`` is reserved for use by auth
+        The attribute ``hil.rest.local.auth`` is reserved for use by auth
         backends; A backend may store any information it needs as that
         attribute.
 

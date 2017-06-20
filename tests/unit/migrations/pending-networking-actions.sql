@@ -9,10 +9,10 @@
 --
 -- The extensions loaded were:
 --
--- * haas.ext.switches.mock
--- * haas.ext.obm.mock
--- * haas.ext.auth.null
--- * haas.ext.network_allocators.null
+-- * hil.ext.switches.mock
+-- * hil.ext.obm.mock
+-- * hil.ext.auth.null
+-- * hil.ext.network_allocators.null
 --
 -- The database was populated with objects equivalent to those created by
 -- `create_pending_actions_db` in `tests/unit/migrations.py`, as of the

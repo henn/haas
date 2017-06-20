@@ -1,14 +1,14 @@
 """Test general properties of the authentication framework.
 
-This module is called `haas_auth` because pytest is lousy about namespacing;
+This module is called `hil_auth` because pytest is lousy about namespacing;
 if we call it `auth`, it chokes on the fact that there's a file `api/auth.py`
 as well. grr.
 """
 import pytest
-from haas import config, server
-from haas.auth import get_auth_backend
-from haas.rest import app
-from haas.test_common import config_testsuite, config_merge, fresh_database, \
+from hil import config, server
+from hil.auth import get_auth_backend
+from hil.rest import app
+from hil.test_common import config_testsuite, config_merge, fresh_database, \
     fail_on_log_warnings
 
 fail_on_log_warnings = pytest.fixture(autouse=True)(fail_on_log_warnings)
@@ -19,13 +19,13 @@ def configure():
     config_testsuite()
     config_merge({
         'extensions': {
-            'haas.ext.auth.mock': '',
+            'hil.ext.auth.mock': '',
 
             # This extension is enabled by default in the tests, so we need to
             # disable it explicitly:
-            'haas.ext.auth.null': None,
+            'hil.ext.auth.null': None,
 
-            'haas.ext.switches.mock': '',
+            'hil.ext.switches.mock': '',
         },
     })
     config.load_extensions()

@@ -2,10 +2,10 @@
 
 This backend requires no authentication and permits everything. Useful for
 testing, do not use in production."""
-from haas import auth
+from hil import auth
 
 import logging
-from haas.rest import ContextLogger
+from hil.rest import ContextLogger
 
 logger = ContextLogger(logging.getLogger(__name__), {})
 

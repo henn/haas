@@ -3,11 +3,11 @@ import sys
 
 # api must be loaded to register the api callbacks, even though we don't
 # use it directly from this module.
-from haas import api  # pylint: disable=unused-import
+from hil import api  # pylint: disable=unused-import
 
-from haas import model, auth
-from haas.class_resolver import build_class_map_for
-from haas.network_allocator import get_network_allocator
+from hil import model, auth
+from hil.class_resolver import build_class_map_for
+from hil.network_allocator import get_network_allocator
 
 
 def register_drivers():
@@ -32,18 +32,18 @@ def validate_state():
     """
     if get_network_allocator() is None:
         sys.exit("ERROR: No network allocator registered; make sure your "
-                 "haas.cfg loads an extension which provides the network "
+                 "hil.cfg loads an extension which provides the network "
                  "allocator.")
     if auth.get_auth_backend() is None:
         sys.exit("ERROR: No authentication/authorization backend registered; "
-                 "make sure your haas.cfg loads an extension which provides "
+                 "make sure your hil.cfg loads an extension which provides "
                  "the auth backend.")
 
 
 def stop_orphan_consoles():
     """Stop any orphaned console logging processes.
 
-    These may exist if HaaS was shut down uncleanly.
+    These may exist if HIL was shut down uncleanly.
     """
     # Stop all orphan console logging processes on startup
     nodes = model.Node.query.all()

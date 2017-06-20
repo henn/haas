@@ -25,14 +25,14 @@ import json
 import flask
 from flask import _app_ctx_stack as ctx_stack
 
-from haas.flaskapp import app
-from haas.errors import APIError, AuthorizationError
-from haas.config import cfg
+from hil.flaskapp import app
+from hil.errors import APIError, AuthorizationError
+from hil.config import cfg
 
 from schema import SchemaError
 from uuid import uuid4
 
-from haas import auth
+from hil import auth
 
 local = flask.g
 

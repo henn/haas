@@ -11,9 +11,9 @@
 # IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 # express or implied.  See the License for the specific language
 # governing permissions and limitations under the License.
-"""Core database logic for HaaS
+"""Core database logic for HIL
 
-This module defines a number of built-in database objects used by HaaS.
+This module defines a number of built-in database objects used by HIL.
 In addition, it provides some general infrastructure for dealing with the
 database.
 
@@ -26,9 +26,9 @@ Extensions are permitted to create new database objects by subclassing from
 # from sqlalchemy.orm import relationship, sessionmaker,backref
 from flask.ext.sqlalchemy import SQLAlchemy
 from subprocess import call, check_call, Popen, PIPE
-from haas.flaskapp import app
-from haas.config import cfg
-from haas.dev_support import no_dry_run
+from hil.flaskapp import app
+from hil.config import cfg
+from hil.dev_support import no_dry_run
 import uuid
 import xml.etree.ElementTree
 from sqlalchemy import BigInteger
@@ -233,7 +233,7 @@ class Switch(db.Model):
         """Return a session object for the switch.
 
         Conceptually, a session is an active connection to the switch; it lets
-        HaaS avoid connecting and disconnecting for each change. the session
+        HIL avoid connecting and disconnecting for each change. the session
         object must have the methods:
 
             def modify_port(self, port, channel, new_network):
@@ -256,7 +256,7 @@ class Switch(db.Model):
             def disconnect(self):
                 '''Disconnect from the switch.
 
-                This will be called when HaaS is done with the session.
+                This will be called when HIL is done with the session.
                 '''
 
             def get_port_networks(self, ports):

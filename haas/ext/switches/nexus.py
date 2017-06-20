@@ -23,8 +23,8 @@ import re
 import schema
 import logging
 
-from haas.model import db, Switch
-from haas.ext.switches import _console
+from hil.model import db, Switch
+from hil.ext.switches import _console
 
 logger = logging.getLogger(__name__)
 

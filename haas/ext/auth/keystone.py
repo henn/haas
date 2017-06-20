@@ -4,10 +4,10 @@ This is a thin wrapper around the `keystonemiddleware` library.
 """
 from keystonemiddleware.auth_token import filter_factory
 from flask import request
-from haas.flaskapp import app
-from haas.config import cfg
-from haas.model import Project
-from haas import auth, rest
+from hil.flaskapp import app
+from hil.config import cfg
+from hil.model import Project
+from hil import auth, rest
 import logging
 import sys
 
@@ -37,7 +37,7 @@ class KeystoneAuthBackend(auth.AuthBackend):
         project_id = request.environ['HTTP_X_PROJECT_ID']
         if Project.query.filter_by(label=project_id).count() == 0:
             logger.info("Successful authentication by Openstack project %r, "
-                        "but this project is not registered with HaaS",
+                        "but this project is not registered with HIL",
                         project_id)
             return False
 
@@ -52,7 +52,7 @@ class KeystoneAuthBackend(auth.AuthBackend):
 
 def setup(*args, **kwargs):
     if not cfg.has_section(__name__):
-        logger.error('No section for [%s] in haas.cfg; authentication will '
+        logger.error('No section for [%s] in hil.cfg; authentication will '
                      'not work without this. Please add this section and try '
                      'again.', __name__)
         sys.exit(1)

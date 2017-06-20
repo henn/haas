@@ -1,4 +1,4 @@
-# This configuration files is used for testing HaaS with postgresql and apache
+# This configuration files is used for testing HIL with postgresql and apache
 [general]
 log_level = debug
 
@@ -14,14 +14,14 @@ libvirt_endpoint = qemu:///system
 endpoint = http://127.0.0.1
 
 [database]
-uri = postgresql://postgres@localhost/haas
+uri = postgresql://postgres@localhost/hil
 
 [devel]
 dry_run=True
 
 [extensions]
-haas.ext.obm.mock =
-haas.ext.switches.mock =
-haas.ext.auth.database =
+hil.ext.obm.mock =
+hil.ext.switches.mock =
+hil.ext.auth.database =
 
-haas.ext.network_allocators.null =
+hil.ext.network_allocators.null =

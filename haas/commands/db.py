@@ -1,5 +1,5 @@
-from haas import server
-from haas.migrations import command, create_db
+from hil import server
+from hil.migrations import command, create_db
 
 
 @command.command

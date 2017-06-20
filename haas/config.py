@@ -14,7 +14,7 @@
 
 """Load and query configuration data.
 
-This module handles loading of the haas.cfg file, and querying the options
+This module handles loading of the hil.cfg file, and querying the options
 therein. the `cfg` attribute is an instance of `ConfigParser.RawConfigParser`.
 Once `load` has been called, it will be ready to use.
 """
@@ -29,8 +29,8 @@ cfg = ConfigParser.RawConfigParser()
 cfg.optionxform = str
 
 
-def load(filename='haas.cfg'):
-    """Load the configuration from the file 'haas.cfg' in the current directory.
+def load(filename='hil.cfg'):
+    """Load the configuration from the file 'hil.cfg' in the current directory.
 
     This must be called once at program startup; no configuration options will
     be available until then.
@@ -72,8 +72,8 @@ def configure_logging():
         log_dir = cfg.get('general', 'log_dir')
 
         # logging
-        log_file = os.path.join(log_dir, 'haas.log')
-        logger = logging.getLogger('haas')
+        log_file = os.path.join(log_dir, 'hil.log')
+        logger = logging.getLogger('hil')
         logger.addHandler(logging.handlers.TimedRotatingFileHandler(
             log_file, when='D', interval=1))
 
@@ -82,7 +82,7 @@ def load_extensions():
     """Load extensions.
 
     Each extension is specified as ``module =`` in the ``[extensions]`` section
-    of ``haas.cfg``. This must be called after ``load``.
+    of ``hil.cfg``. This must be called after ``load``.
     """
     if not cfg.has_section('extensions'):
         return
@@ -93,7 +93,7 @@ def load_extensions():
             sys.modules[name].setup()
 
 
-def setup(filename='haas.cfg'):
+def setup(filename='hil.cfg'):
     """Do full configuration setup.
 
     This is equivalent to calling load, configure_logging, and

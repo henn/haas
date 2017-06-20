@@ -1,4 +1,4 @@
-# This is an example haas.cfg file suitable for use for development without a
+# This is an example hil.cfg file suitable for use for development without a
 # full set of hardware (switches, nodes, libvirtd...). It can be used as-is,
 # but using the vlan_pool allocator may also be desirable (see the  comments
 # below).
@@ -17,35 +17,35 @@ libvirt_endpoint = qemu:///system
 endpoint = http://127.0.0.1:5000
 
 [database]
-uri = sqlite:///haas.db
+uri = sqlite:///hil.db
 #uri = postgresql://<username>:<password>@<address>/<dbname>
 
 [devel]
 dry_run=True
 
 [extensions]
-haas.ext.switches.mock =
-haas.ext.obm.mock =
+hil.ext.switches.mock =
+hil.ext.obm.mock =
 
-haas.ext.network_allocators.null =
+hil.ext.network_allocators.null =
 
 # Depending on what you're trying to do, you may want to use the vlan_pool
 # network allocator instead of the null allocator. To do this, comment out the
 # null allocator extension above, and uncomment the following:
 #
-# haas.ext.network_allocators.vlan_pool =
+# hil.ext.network_allocators.vlan_pool =
 #
-# [haas.ext.network_allocators.vlan_pool]
+# [hil.ext.network_allocators.vlan_pool]
 # vlans = 100-200, 300-500
 
-haas.ext.auth.null =
+hil.ext.auth.null =
 # Again, depending on what you're doing, you may want to change this to a
 # diffefrent authentication backend:
-# haas.ext.auth.database =
-# haas.ext.auth.keystone =
+# hil.ext.auth.database =
+# hil.ext.auth.keystone =
 #
 # If using the keystone backend, you'll also need to fill out this section:
-# [haas.ext.auth.keystone]
+# [hil.ext.auth.keystone]
 # # This is equivalent to the [keystone_auth] section described at:
 # # http://docs.openstack.org/developer/keystonemiddleware/middlewarearchitecture.html
 # #

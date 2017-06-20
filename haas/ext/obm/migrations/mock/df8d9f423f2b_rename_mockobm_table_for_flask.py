@@ -1,6 +1,6 @@
 """Rename mockobm table for flask
 
-See the docstring in 'haas/migrations/versions/6a8c19565060_move_to_flask.py'
+See the docstring in 'hil/migrations/versions/6a8c19565060_move_to_flask.py'
 
 Revision ID: df8d9f423f2b
 Revises: 6a8c19565060
@@ -9,8 +9,8 @@ Create Date: 2016-04-04 02:24:53.812100
 """
 from alembic import op
 import sqlalchemy as sa
-from haas.model import db
-from haas.flaskapp import app
+from hil.model import db
+from hil.flaskapp import app
 
 # revision identifiers, used by Alembic.
 revision = 'df8d9f423f2b'

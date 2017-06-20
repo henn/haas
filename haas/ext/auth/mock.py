@@ -4,7 +4,7 @@ This module provides an auth backend which allows the programmer to mock
 project an admin access, for use in testing. See the functions `set_project`
 and `set_admin` for details.
 """
-from haas import auth, rest
+from hil import auth, rest
 
 
 class MockAuthBackend(auth.AuthBackend):

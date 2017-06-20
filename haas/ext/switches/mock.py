@@ -18,8 +18,8 @@ Meant for use in the test suite.
 """
 
 from collections import defaultdict
-from haas.model import Switch
-from haas.migrations import paths
+from hil.model import Switch
+from hil.migrations import paths
 import schema
 from sqlalchemy import Column, Integer, ForeignKey, String
 from os.path import dirname, join
@@ -32,7 +32,7 @@ LOCAL_STATE = defaultdict(lambda: defaultdict(dict))
 class MockSwitch(Switch):
     """A switch which stores configuration in memory.
 
-    This class conforms to the interface specified by ``haas.model.Switch``.
+    This class conforms to the interface specified by ``hil.model.Switch``.
     It's implementation is connectionless, so it is it's own session object as
     suggested int the superclass's documentation.
     """

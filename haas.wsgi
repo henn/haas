@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 # imported for the side-effect of registering the request handlers:
-from haas import api  # pylint: disable=unused-import
+from hil import api  # pylint: disable=unused-import
 
-from haas import config, server, migrations
+from hil import config, server, migrations
 
-config.setup('/etc/haas.cfg')
+config.setup('/etc/hil.cfg')
 server.init()
 migrations.check_db_schema()
 
@@ -14,4 +14,4 @@ migrations.check_db_schema()
 # top of the file.
 #
 # pylint: disable=unused-import
-from haas.rest import app as application  # noqa
+from hil.rest import app as application  # noqa

@@ -14,9 +14,9 @@
 """Common functionality for switches with a cisco-like console."""
 
 from abc import ABCMeta, abstractmethod
-from haas.model import Port, NetworkAttachment
+from hil.model import Port, NetworkAttachment
 import re
-from haas.config import cfg
+from hil.config import cfg
 
 _CHANNEL_RE = re.compile(r'vlan/(\d+)')
 
@@ -95,10 +95,10 @@ class Session(object):
         else:
             match = re.match(_CHANNEL_RE, channel)
             # TODO: I'd be more okay with this assertion if it weren't possible
-            # to mis-configure HaaS in a way that triggers this; currently the
+            # to mis-configure HIL in a way that triggers this; currently the
             # administrator needs to line up the network allocator with the
             # switches; this is unsatisfactory. --isd
-            assert match is not None, "HaaS passed an invalid channel to the" \
+            assert match is not None, "HIL passed an invalid channel to the" \
                 "switch!"
             vlan_id = match.groups()[0]
             if network_id is None:
@@ -122,7 +122,7 @@ class Session(object):
     def _should_save(self, switch_type):
         """checks the config file to see if switch should save or not"""
 
-        switch_ext = 'haas.ext.switches.' + switch_type
+        switch_ext = 'hil.ext.switches.' + switch_type
         if cfg.has_option(switch_ext, 'save'):
             if not cfg.getboolean(switch_ext, 'save'):
                 return False

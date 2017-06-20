@@ -12,10 +12,10 @@
 # express or implied.  See the License for the specific language
 # governing permissions and limitations under the License.
 
-"""This module implements the HaaS command line tool."""
-from haas import config, server, migrations
-from haas.config import cfg
-from haas.commands.util import ensure_not_root
+"""This module implements the HIL command line tool."""
+from hil import config, server, migrations
+from hil.config import cfg
+from hil.commands.util import ensure_not_root
 
 import inspect
 import json
@@ -28,8 +28,8 @@ import logging
 
 from functools import wraps
 
-from haas.client.client import Client, RequestsHTTPClient, KeystoneHTTPClient
-from haas.client.base import FailedAPICallException
+from hil.client.client import Client, RequestsHTTPClient, KeystoneHTTPClient
+from hil.client.base import FailedAPICallException
 
 
 logger = logging.getLogger(__name__)
@@ -94,7 +94,7 @@ def setup_http_client():
     Sets http_client to an object which makes HTTP requests with
     authentication. It chooses an authentication backend as follows:
 
-    1. If the environment variables HAAS_USERNAME and HAAS_PASSWORD
+    1. If the environment variables HIL_USERNAME and HIL_PASSWORD
        are defined, it will use HTTP basic auth, with the corresponding
        user name and password.
     2. If the `python-keystoneclient` library is installed, and the
@@ -118,11 +118,11 @@ def setup_http_client():
     global C  # initiating the client library
     # First try basic auth:
     ep = (
-            os.environ.get('HAAS_ENDPOINT') or
-            sys.stdout.write("Error: HAAS_ENDPOINT not set \n")
+            os.environ.get('HIL_ENDPOINT') or
+            sys.stdout.write("Error: HIL_ENDPOINT not set \n")
             )
-    basic_username = os.getenv('HAAS_USERNAME')
-    basic_password = os.getenv('HAAS_PASSWORD')
+    basic_username = os.getenv('HIL_USERNAME')
+    basic_password = os.getenv('HIL_PASSWORD')
     if basic_username is not None and basic_password is not None:
         # For calls with no client library support yet.
         # Includes all headnode calls; registration of nodes and switches.
@@ -175,7 +175,7 @@ def check_status_code(response):
 
 def object_url(*args):
     # Prefer an environmental variable for getting the endpoint if available.
-    url = os.environ.get('HAAS_ENDPOINT')
+    url = os.environ.get('HIL_ENDPOINT')
     if url is None:
         url = cfg.get('client', 'endpoint')
 
@@ -224,14 +224,14 @@ def serve(port):
     except Exception as e:
         sys.exit('Unxpected Error!!! \n %s' % e)
 
-    """Start the HaaS API server"""
+    """Start the HIL API server"""
     if cfg.has_option('devel', 'debug'):
         debug = cfg.getboolean('devel', 'debug')
     else:
         debug = False
     # We need to import api here so that the functions within it get registered
     # (via `rest_call`), though we don't use it directly:
-    from haas import model, api, rest
+    from hil import model, api, rest
     server.init()
     migrations.check_db_schema()
     server.stop_orphan_consoles()
@@ -240,8 +240,8 @@ def serve(port):
 
 @cmd
 def serve_networks():
-    """Start the HaaS networking server"""
-    from haas import model, deferred
+    """Start the HIL networking server"""
+    from hil import model, deferred
     from time import sleep
     server.init()
     server.register_drivers()
@@ -458,7 +458,7 @@ def node_set_bootdev(node, dev):
     """
     Sets <node> to boot from <dev> persistenly
 
-    eg; haas node_set_bootdev dell-23 pxe
+    eg; hil node_set_bootdev dell-23 pxe
     for IPMI, dev can be set to disk, pxe, or none
     """
     url = object_url('node', node, 'boot_device')
@@ -537,7 +537,7 @@ def metadata_delete(node, label):
 def switch_register(switch, subtype, *args):
     """Register a switch with name <switch> and
     <subtype>, <hostname>, <username>,  <password>
-    eg. haas switch_register mock03 mock mockhost01 mockuser01 mockpass01
+    eg. hil switch_register mock03 mock mockhost01 mockuser01 mockpass01
 
     FIXME: current design needs to change. CLI should not know about every
     backend. Ideally, this should be taken care of in the driver itself or
@@ -777,7 +777,7 @@ def stop_console(node):
 def create_admin_user(username, password):
     """Create an admin user. Only valid for the database auth backend.
 
-    This must be run on the HaaS API server, with access to haas.cfg and the
+    This must be run on the HIL API server, with access to hil.cfg and the
     database. It will create an user named <username> with password
     <password>, who will have administrator priviledges.
 
@@ -785,12 +785,12 @@ def create_admin_user(username, password):
     have an initial admin, you can (and should) create additional users via
     the API.
     """
-    if not config.cfg.has_option('extensions', 'haas.ext.auth.database'):
+    if not config.cfg.has_option('extensions', 'hil.ext.auth.database'):
         sys.exit("'make_inital_admin' is only valid with the database auth"
                  " backend.")
-    from haas import model
-    from haas.model import db
-    from haas.ext.auth.database import User
+    from hil import model
+    from hil.model import db
+    from hil.ext.auth.database import User
     model.init_db()
     db.session.add(User(label=username, password=password, is_admin=True))
     db.session.commit()
@@ -815,7 +815,7 @@ def help(*commands):
 def main():
     """Entry point to the CLI.
 
-    There is a script located at ${source_tree}/scripts/haas, which invokes
+    There is a script located at ${source_tree}/scripts/hil, which invokes
     this function.
     """
     ensure_not_root()

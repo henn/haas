@@ -17,7 +17,7 @@ import pexpect
 import re
 import logging
 
-from haas.ext.switches import _console
+from hil.ext.switches import _console
 
 logger = logging.getLogger(__name__)
 

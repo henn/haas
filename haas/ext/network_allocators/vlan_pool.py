@@ -2,9 +2,9 @@
 
 import logging
 
-from haas.network_allocator import NetworkAllocator, set_network_allocator
-from haas.model import db
-from haas.config import cfg
+from hil.network_allocator import NetworkAllocator, set_network_allocator
+from hil.model import db
+from hil.config import cfg
 
 
 def get_vlan_list():
@@ -77,7 +77,7 @@ class Vlan(db.Model):
     created, it must allocate a Vlan, to ensure that:
 
     1. The VLAN number it is using is unique, and
-    2. The VLAN number is actually allocated to the HaaS; on some deployments
+    2. The VLAN number is actually allocated to the HIL; on some deployments
        we may have specific vlan numbers that we are allowed to use.
     """
     id = db.Column(db.Integer, primary_key=True)

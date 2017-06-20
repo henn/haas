@@ -14,5 +14,5 @@
 # express or implied.  See the License for the specific language
 # governing permissions and limitations under the License.
 
-from haas import cli
+from hil import cli
 cli.main()

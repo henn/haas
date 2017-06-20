@@ -1,9 +1,9 @@
-from haas.client.node import Node
-from haas.client.project import Project
-from haas.client.switch import Switch
-from haas.client.switch import Port
-from haas.client.network import Network
-from haas.client.user import User
+from hil.client.node import Node
+from hil.client.project import Project
+from hil.client.switch import Switch
+from hil.client.switch import Port
+from hil.client.network import Network
+from hil.client.user import User
 import abc
 import requests
 
@@ -11,7 +11,7 @@ import requests
 class HTTPClient(object):
     """An HTTP client.
 
-    Makes HTTP requests on behalf of the HaaS CLI. Responsible for adding
+    Makes HTTP requests on behalf of the HIL CLI. Responsible for adding
     authentication information to the request.
     """
 

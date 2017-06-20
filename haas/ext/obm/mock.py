@@ -17,11 +17,11 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 import schema
 
-from haas.model import Obm
-from haas.dev_support import no_dry_run
+from hil.model import Obm
+from hil.dev_support import no_dry_run
 
 from os.path import join, dirname
-from haas.migrations import paths
+from hil.migrations import paths
 
 paths[__name__] = join(dirname(__file__), 'migrations', 'mock')
 
